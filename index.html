@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organizador de Agenda Interativo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Calm Focus Palette -->
+    <!-- Application Structure Plan: A guided, multi-section single-page application that walks the user through the Eisenhower Matrix methodology. It starts with theory (interactive matrix), moves to a hands-on workshop (brain dump, drag-and-drop prioritization), and concludes with a summary and examples. This step-by-step structure is chosen because the source material is a tutorial, and an interactive flow is the most effective way to teach and apply the concepts for better user retention and understanding. -->
+    <!-- Visualization & Content Choices: The core of the report is the Eisenhower Matrix. Goal: Organize/Teach. Method: Interactive 2x2 grid with drag-and-drop functionality using native HTML5 Drag & Drop API. Justification: This transforms a passive learning exercise into an active, engaging one, which is more effective for this type of productivity tool. No quantitative data is present, so no charts are needed. All textual content is adapted directly from the report to explain the process. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f7f4;
+            color: #3d3d3d;
+        }
+        .quadrant {
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .quadrant.drag-over {
+            background-color: #e0e0e0;
+            transform: scale(1.02);
+        }
+        .task-card {
+            cursor: grab;
+            transition: background-color 0.2s ease;
+        }
+        .task-card:active {
+            cursor: grabbing;
+        }
+        .task-card.dragging {
+            opacity: 0.5;
+            background-color: #e2e8f0;
+        }
+        .section-hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-5xl">
+
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2">Organizador de Agenda Interativo</h1>
+            <p class="text-lg text-gray-600">Transforme o caos em clareza com a Matriz de Eisenhower.</p>
+        </header>
+
+        <main>
+            <!-- Seção 1: Introdução à Matriz -->
+            <section id="intro-section" class="mb-16">
+                <h2 class="text-2xl font-bold text-center mb-2">Passo 1: Entenda o Método</h2>
+                <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">O segredo da produtividade não é fazer mais, mas fazer o que é certo. A Matriz de Eisenhower ajuda a diferenciar tarefas **Urgentes** (exigem atenção imediata) de **Importantes** (contribuem para seus objetivos de longo prazo). Passe o mouse sobre cada quadrante para saber mais.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-center">
+                    <div class="relative p-6 bg-white rounded-lg shadow-md border-l-4 border-red-500 group">
+                        <h3 class="font-bold text-lg">Q1: Urgente & Importante</h3>
+                        <p class="text-sm text-gray-500">Crises, prazos finais.</p>
+                        <div class="absolute inset-0 bg-gray-800 bg-opacity-90 text-white p-4 rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <p class="text-sm">Estas são as prioridades máximas. **FAÇA AGORA** para evitar estresse e problemas.</p>
+                        </div>
+                    </div>
+                    <div class="relative p-6 bg-white rounded-lg shadow-md border-l-4 border-blue-500 group">
+                        <h3 class="font-bold text-lg">Q2: Não Urgente & Importante</h3>
+                        <p class="text-sm text-gray-500">Metas, planejamento, prevenção.</p>
+                        <div class="absolute inset-0 bg-gray-800 bg-opacity-90 text-white p-4 rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <p class="text-sm">Aqui mora o progresso real. **AGENDE** um tempo para estas tarefas. É o seu investimento no futuro.</p>
+                        </div>
+                    </div>
+                    <div class="relative p-6 bg-white rounded-lg shadow-md border-l-4 border-yellow-500 group">
+                        <h3 class="font-bold text-lg">Q3: Urgente & Não Importante</h3>
+                        <p class="text-sm text-gray-500">Interrupções, alguns e-mails.</p>
+                        <div class="absolute inset-0 bg-gray-800 bg-opacity-90 text-white p-4 rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                           <p class="text-sm">Estas tarefas roubam seu foco. **DELEGUE** ou automatize sempre que possível.</p>
+                        </div>
+                    </div>
+                    <div class="relative p-6 bg-white rounded-lg shadow-md border-l-4 border-gray-400 group">
+                        <h3 class="font-bold text-lg">Q4: Não Urgente & Não Importante</h3>
+                        <p class="text-sm text-gray-500">Distrações, tarefas inúteis.</p>
+                        <div class="absolute inset-0 bg-gray-800 bg-opacity-90 text-white p-4 rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <p class="text-sm">Atividades que não agregam valor. **ELIMINE** e libere seu tempo para o que realmente importa.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Seção 2: Workshop Interativo -->
+            <section id="workshop-section" class="bg-white p-6 md:p-8 rounded-lg shadow-xl border border-gray-200">
+                <h2 class="text-2xl font-bold text-center mb-2">Passo 2: Organize Suas Tarefas</h2>
+                <p class="text-center text-gray-600 mb-8">Agora é sua vez! Siga as etapas abaixo para organizar seu dia.</p>
+
+                <!-- Etapa 2.1: Brain Dump -->
+                <div id="brain-dump-step">
+                    <h3 class="text-xl font-semibold mb-3 text-center">2.1 - Descarregue Tudo (Brain Dump)</h3>
+                    <p class="text-center text-gray-500 mb-4">Liste todas as tarefas que estão na sua mente, uma por linha. Não se preocupe em organizar agora.</p>
+                    <textarea id="task-input" class="w-full h-48 p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="Ex: Entregar relatório de vendas&#10;Responder e-mail do cliente Y&#10;Comprar presente para a mamãe..."></textarea>
+                    <div class="text-center mt-6">
+                        <button id="process-tasks-btn" class="bg-blue-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-blue-700 transition-colors shadow-md">Priorizar Tarefas →</button>
+                    </div>
+                </div>
+
+                <!-- Etapa 2.2: Priorização Drag & Drop -->
+                <div id="prioritize-step" class="section-hidden">
+                    <h3 class="text-xl font-semibold mb-3 text-center">2.2 - Arraste e Solte para Priorizar</h3>
+                    <p class="text-center text-gray-500 mb-6">Arraste cada tarefa da lista para o quadrante correspondente.</p>
+                    <div class="flex flex-col lg:flex-row gap-6">
+                        <div id="task-list-container" class="w-full lg:w-1/3 bg-gray-50 p-4 rounded-lg border">
+                            <h4 class="font-bold mb-3 text-center">Sua Lista de Tarefas</h4>
+                            <div id="task-list" class="space-y-2 min-h-[100px]"></div>
+                        </div>
+                        <div class="w-full lg:w-2/3 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div id="q1" data-quadrant="1" class="quadrant bg-red-50 border-red-200 border-2 border-dashed rounded-lg p-4 min-h-[150px]">
+                                <h4 class="font-bold text-red-800">Q1: Faça Agora</h4>
+                            </div>
+                            <div id="q2" data-quadrant="2" class="quadrant bg-blue-50 border-blue-200 border-2 border-dashed rounded-lg p-4 min-h-[150px]">
+                                <h4 class="font-bold text-blue-800">Q2: Agende</h4>
+                            </div>
+                            <div id="q3" data-quadrant="3" class="quadrant bg-yellow-50 border-yellow-200 border-2 border-dashed rounded-lg p-4 min-h-[150px]">
+                                <h4 class="font-bold text-yellow-800">Q3: Delegue</h4>
+                            </div>
+                            <div id="q4" data-quadrant="4" class="quadrant bg-gray-100 border-gray-300 border-2 border-dashed rounded-lg p-4 min-h-[150px]">
+                                <h4 class="font-bold text-gray-800">Q4: Elimine</h4>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="text-center mt-8">
+                        <button id="show-results-btn" class="bg-green-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-green-700 transition-colors shadow-md">Ver Plano de Ação ↓</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Seção 3: Resultados e Plano de Ação -->
+            <section id="results-section" class="section-hidden mt-16">
+                <h2 class="text-2xl font-bold text-center mb-2">Seu Plano de Ação</h2>
+                <p class="text-center text-gray-600 mb-8">Com base na sua priorização, aqui estão suas tarefas organizadas e as próximas etapas recomendadas.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-white p-5 rounded-lg shadow-md border-t-4 border-red-500">
+                        <h3 class="font-bold text-lg mb-3">Q1: Faça Agora</h3>
+                        <p class="text-sm text-gray-500 mb-4">Estas são suas prioridades críticas. Encaixe-as na sua agenda hoje.</p>
+                        <ul id="results-q1" class="list-disc list-inside space-y-2 text-gray-700"></ul>
+                    </div>
+                    <div class="bg-white p-5 rounded-lg shadow-md border-t-4 border-blue-500">
+                        <h3 class="font-bold text-lg mb-3">Q2: Agende</h3>
+                        <p class="text-sm text-gray-500 mb-4">Essas tarefas impulsionam seu progresso. Reserve blocos de tempo na sua agenda para elas.</p>
+                        <ul id="results-q2" class="list-disc list-inside space-y-2 text-gray-700"></ul>
+                    </div>
+                    <div class="bg-white p-5 rounded-lg shadow-md border-t-4 border-yellow-500">
+                        <h3 class="font-bold text-lg mb-3">Q3: Delegue</h3>
+                        <p class="text-sm text-gray-500 mb-4">Quem pode fazer isso por você? Se ninguém, agrupe e resolva-as rapidamente.</p>
+                        <ul id="results-q3" class="list-disc list-inside space-y-2 text-gray-700"></ul>
+                    </div>
+                    <div class="bg-white p-5 rounded-lg shadow-md border-t-4 border-gray-400">
+                        <h3 class="font-bold text-lg mb-3">Q4: Elimine</h3>
+                        <p class="text-sm text-gray-500 mb-4">Seja honesto: essas tarefas realmente precisam ser feitas? Considere removê-las.</p>
+                        <ul id="results-q4" class="list-disc list-inside space-y-2 text-gray-700"></ul>
+                    </div>
+                </div>
+                <div class="mt-8 text-center">
+                     <button id="reset-btn" class="bg-gray-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-gray-600 transition-colors">Começar de Novo</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const taskInput = document.getElementById('task-input');
+            const processTasksBtn = document.getElementById('process-tasks-btn');
+            const showResultsBtn = document.getElementById('show-results-btn');
+            const resetBtn = document.getElementById('reset-btn');
+
+            const brainDumpStep = document.getElementById('brain-dump-step');
+            const prioritizeStep = document.getElementById('prioritize-step');
+            const resultsSection = document.getElementById('results-section');
+
+            const taskList = document.getElementById('task-list');
+            const quadrants = document.querySelectorAll('.quadrant');
+
+            let tasks = [];
+            let categorizedTasks = { 1: [], 2: [], 3: [], 4: [] };
+
+            processTasksBtn.addEventListener('click', () => {
+                const rawTasks = taskInput.value.trim().split('\n').filter(t => t.trim() !== '');
+                if (rawTasks.length === 0) {
+                    alert('Por favor, insira pelo menos uma tarefa.');
+                    return;
+                }
+                tasks = rawTasks.map((text, index) => ({ id: `task-${index}`, text }));
+                
+                renderTaskList();
+                brainDumpStep.classList.add('section-hidden');
+                prioritizeStep.classList.remove('section-hidden');
+                window.scrollTo({ top: document.getElementById('workshop-section').offsetTop, behavior: 'smooth' });
+            });
+
+            function renderTaskList() {
+                taskList.innerHTML = '';
+                tasks.forEach(task => {
+                    const taskCard = document.createElement('div');
+                    taskCard.id = task.id;
+                    taskCard.className = 'task-card bg-white p-3 rounded-md shadow border cursor-grab';
+                    taskCard.draggable = true;
+                    taskCard.textContent = task.text;
+                    taskCard.addEventListener('dragstart', handleDragStart);
+                    taskList.appendChild(taskCard);
+                });
+            }
+
+            function handleDragStart(e) {
+                e.dataTransfer.setData('text/plain', e.target.id);
+                setTimeout(() => {
+                    e.target.classList.add('dragging');
+                }, 0);
+            }
+
+            quadrants.forEach(quadrant => {
+                quadrant.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    quadrant.classList.add('drag-over');
+                });
+                quadrant.addEventListener('dragleave', () => {
+                    quadrant.classList.remove('drag-over');
+                });
+                quadrant.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    quadrant.classList.remove('drag-over');
+                    const taskId = e.dataTransfer.getData('text/plain');
+                    const draggableElement = document.getElementById(taskId);
+                    const quadrantId = quadrant.dataset.quadrant;
+                    
+                    if (draggableElement) {
+                        quadrant.appendChild(draggableElement);
+                        draggableElement.classList.remove('dragging');
+                        
+                        const taskText = draggableElement.textContent;
+                        categorizedTasks[quadrantId].push(taskText);
+                        
+                        const originalTaskIndex = tasks.findIndex(t => t.id === taskId);
+                        if(originalTaskIndex > -1) tasks.splice(originalTaskIndex, 1);
+                    }
+                });
+            });
+
+            showResultsBtn.addEventListener('click', () => {
+                if (tasks.length > 0) {
+                    if (!confirm('Você tem tarefas não categorizadas. Deseja continuar mesmo assim?')) {
+                        return;
+                    }
+                }
+                
+                for (let i = 1; i <= 4; i++) {
+                    const quadrantEl = document.getElementById(`q${i}`);
+                    const tasksInQuadrant = Array.from(quadrantEl.querySelectorAll('.task-card'));
+                    categorizedTasks[i] = tasksInQuadrant.map(t => t.textContent);
+                }
+
+                renderResults();
+                resultsSection.classList.remove('section-hidden');
+                window.scrollTo({ top: resultsSection.offsetTop, behavior: 'smooth' });
+            });
+
+            function renderResults() {
+                for (let i = 1; i <= 4; i++) {
+                    const resultList = document.getElementById(`results-q${i}`);
+                    resultList.innerHTML = '';
+                    if (categorizedTasks[i].length > 0) {
+                        categorizedTasks[i].forEach(taskText => {
+                            const li = document.createElement('li');
+                            li.textContent = taskText;
+                            resultList.appendChild(li);
+                        });
+                    } else {
+                        const li = document.createElement('li');
+                        li.textContent = 'Nenhuma tarefa aqui.';
+                        li.className = 'text-gray-400 italic';
+                        li.style.listStyleType = 'none';
+                        resultList.appendChild(li);
+                    }
+                }
+            }
+            
+            resetBtn.addEventListener('click', () => {
+                taskInput.value = '';
+                tasks = [];
+                categorizedTasks = { 1: [], 2: [], 3: [], 4: [] };
+                
+                quadrants.forEach(q => {
+                    const cards = q.querySelectorAll('.task-card');
+                    cards.forEach(c => c.remove());
+                });
+
+                brainDumpStep.classList.remove('section-hidden');
+                prioritizeStep.classList.add('section-hidden');
+                resultsSection.classList.add('section-hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>
