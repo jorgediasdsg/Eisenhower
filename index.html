@@ -39,6 +39,15 @@
         .section-hidden {
             display: none;
         }
+        .guide-card {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .guide-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -90,8 +99,6 @@
             <section id="workshop-section" class="bg-white p-6 md:p-8 rounded-lg shadow-xl border border-gray-200">
                 <h2 class="text-2xl font-bold text-center mb-2">Passo 2: Organize Suas Tarefas</h2>
                 <p class="text-center text-gray-600 mb-8">Agora é sua vez! Siga as etapas abaixo para organizar seu dia.</p>
-
-                <!-- Etapa 2.1: Brain Dump -->
                 <div id="brain-dump-step">
                     <h3 class="text-xl font-semibold mb-3 text-center">2.1 - Descarregue Tudo (Brain Dump)</h3>
                     <p class="text-center text-gray-500 mb-4">Liste todas as tarefas que estão na sua mente, uma por linha. Não se preocupe em organizar agora.</p>
@@ -100,8 +107,6 @@
                         <button id="process-tasks-btn" class="bg-blue-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-blue-700 transition-colors shadow-md">Priorizar Tarefas →</button>
                     </div>
                 </div>
-
-                <!-- Etapa 2.2: Priorização Drag & Drop -->
                 <div id="prioritize-step" class="section-hidden">
                     <h3 class="text-xl font-semibold mb-3 text-center">2.2 - Arraste e Solte para Priorizar</h3>
                     <p class="text-center text-gray-500 mb-6">Arraste cada tarefa da lista para o quadrante correspondente.</p>
@@ -111,18 +116,10 @@
                             <div id="task-list" class="space-y-2 min-h-[100px]"></div>
                         </div>
                         <div class="w-full lg:w-2/3 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div id="q1" data-quadrant="1" class="quadrant bg-red-50 border-red-200 border-2 border-dashed rounded-lg p-4 min-h-[150px]">
-                                <h4 class="font-bold text-red-800">Q1: Faça Agora</h4>
-                            </div>
-                            <div id="q2" data-quadrant="2" class="quadrant bg-blue-50 border-blue-200 border-2 border-dashed rounded-lg p-4 min-h-[150px]">
-                                <h4 class="font-bold text-blue-800">Q2: Agende</h4>
-                            </div>
-                            <div id="q3" data-quadrant="3" class="quadrant bg-yellow-50 border-yellow-200 border-2 border-dashed rounded-lg p-4 min-h-[150px]">
-                                <h4 class="font-bold text-yellow-800">Q3: Delegue</h4>
-                            </div>
-                            <div id="q4" data-quadrant="4" class="quadrant bg-gray-100 border-gray-300 border-2 border-dashed rounded-lg p-4 min-h-[150px]">
-                                <h4 class="font-bold text-gray-800">Q4: Elimine</h4>
-                            </div>
+                            <div id="q1" data-quadrant="1" class="quadrant bg-red-50 border-red-200 border-2 border-dashed rounded-lg p-4 min-h-[150px]"><h4 class="font-bold text-red-800">Q1: Faça Agora</h4></div>
+                            <div id="q2" data-quadrant="2" class="quadrant bg-blue-50 border-blue-200 border-2 border-dashed rounded-lg p-4 min-h-[150px]"><h4 class="font-bold text-blue-800">Q2: Agende</h4></div>
+                            <div id="q3" data-quadrant="3" class="quadrant bg-yellow-50 border-yellow-200 border-2 border-dashed rounded-lg p-4 min-h-[150px]"><h4 class="font-bold text-yellow-800">Q3: Delegue</h4></div>
+                            <div id="q4" data-quadrant="4" class="quadrant bg-gray-100 border-gray-300 border-2 border-dashed rounded-lg p-4 min-h-[150px]"><h4 class="font-bold text-gray-800">Q4: Elimine</h4></div>
                         </div>
                     </div>
                      <div class="text-center mt-8">
@@ -134,33 +131,70 @@
             <!-- Seção 3: Resultados e Plano de Ação -->
             <section id="results-section" class="section-hidden mt-16">
                 <h2 class="text-2xl font-bold text-center mb-2">Seu Plano de Ação</h2>
-                <p class="text-center text-gray-600 mb-8">Com base na sua priorização, aqui estão suas tarefas organizadas e as próximas etapas recomendadas.</p>
+                <p class="text-center text-gray-600 mb-8">Com base na sua priorização, aqui estão suas tarefas organizadas e as próximas etapas recomendadas. Clique no ícone 📅 para agendar.</p>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     <div class="bg-white p-5 rounded-lg shadow-md border-t-4 border-red-500">
                         <h3 class="font-bold text-lg mb-3">Q1: Faça Agora</h3>
                         <p class="text-sm text-gray-500 mb-4">Estas são suas prioridades críticas. Encaixe-as na sua agenda hoje.</p>
-                        <ul id="results-q1" class="list-disc list-inside space-y-2 text-gray-700"></ul>
+                        <ul id="results-q1" class="space-y-2 text-gray-700"></ul>
                     </div>
                     <div class="bg-white p-5 rounded-lg shadow-md border-t-4 border-blue-500">
                         <h3 class="font-bold text-lg mb-3">Q2: Agende</h3>
                         <p class="text-sm text-gray-500 mb-4">Essas tarefas impulsionam seu progresso. Reserve blocos de tempo na sua agenda para elas.</p>
-                        <ul id="results-q2" class="list-disc list-inside space-y-2 text-gray-700"></ul>
+                        <ul id="results-q2" class="space-y-2 text-gray-700"></ul>
                     </div>
                     <div class="bg-white p-5 rounded-lg shadow-md border-t-4 border-yellow-500">
                         <h3 class="font-bold text-lg mb-3">Q3: Delegue</h3>
                         <p class="text-sm text-gray-500 mb-4">Quem pode fazer isso por você? Se ninguém, agrupe e resolva-as rapidamente.</p>
-                        <ul id="results-q3" class="list-disc list-inside space-y-2 text-gray-700"></ul>
+                        <ul id="results-q3" class="space-y-2 text-gray-700"></ul>
                     </div>
                     <div class="bg-white p-5 rounded-lg shadow-md border-t-4 border-gray-400">
                         <h3 class="font-bold text-lg mb-3">Q4: Elimine</h3>
                         <p class="text-sm text-gray-500 mb-4">Seja honesto: essas tarefas realmente precisam ser feitas? Considere removê-las.</p>
-                        <ul id="results-q4" class="list-disc list-inside space-y-2 text-gray-700"></ul>
+                        <ul id="results-q4" class="space-y-2 text-gray-700"></ul>
                     </div>
                 </div>
                 <div class="mt-8 text-center">
                      <button id="reset-btn" class="bg-gray-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-gray-600 transition-colors">Começar de Novo</button>
                 </div>
             </section>
+
+            <!-- Seção 4: Guia Prático -->
+            <section id="guide-section" class="mt-16">
+                <h2 class="text-3xl font-bold text-center mb-10">Guia Prático de Priorização</h2>
+                <div class="space-y-8">
+                    <div class="guide-card bg-white p-6 rounded-lg shadow-lg flex items-start gap-6">
+                        <div class="text-4xl font-bold text-blue-200">01</div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-2">Descarregue Todas as Tarefas (Brain Dump)</h3>
+                            <p class="text-gray-600">Pegue um papel, bloco de notas ou use a ferramenta acima e liste TUDO o que está na sua cabeça. Não organize, apenas escreva. Tarefas do trabalho, coisas de casa, compromissos pessoais, ideias, etc.</p>
+                            <p class="text-sm text-gray-500 mt-3 italic">Ex: Entregar relatório X, responder e-mail do chefe, comprar presente de aniversário, ligar para o dentista...</p>
+                        </div>
+                    </div>
+                    <div class="guide-card bg-white p-6 rounded-lg shadow-lg flex items-start gap-6">
+                        <div class="text-4xl font-bold text-blue-200">02</div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-2">Aplique a Matriz e Priorize</h3>
+                            <p class="text-gray-600">Agora, olhe para a sua lista e coloque cada tarefa em um dos quatro quadrantes (Q1, Q2, Q3, Q4). Use a ferramenta interativa acima para facilitar este processo.</p>
+                        </div>
+                    </div>
+                    <div class="guide-card bg-white p-6 rounded-lg shadow-lg flex items-start gap-6">
+                        <div class="text-4xl font-bold text-blue-200">03</div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-2">Organize sua Agenda com "Time Blocking"</h3>
+                            <p class="text-gray-600 mb-4">Transforme suas tarefas em compromissos com horários definidos no seu calendário. A nova função de agendamento no Google Calendar pode te ajudar!</p>
+                            <ul class="list-disc list-inside space-y-2 text-gray-700">
+                                <li><b>Primeiro, os Inegociáveis:</b> Reuniões, consultas, etc.</li>
+                                <li><b>Depois, o Quadrante 1:</b> Encaixe as tarefas urgentes para hoje.</li>
+                                <li><b>A Mágica do Quadrante 2:</b> Reserve blocos de tempo fixos na sua semana para suas metas.</li>
+                                <li><b>Lide com o Quadrante 3:</b> Agrupe tarefas rápidas em um único bloco.</li>
+                                <li><b>Seja Consciente com o Quadrante 4:</b> Deixe-as de fora da sua agenda produtiva.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
         </main>
     </div>
 
@@ -216,27 +250,16 @@
             }
 
             quadrants.forEach(quadrant => {
-                quadrant.addEventListener('dragover', (e) => {
-                    e.preventDefault();
-                    quadrant.classList.add('drag-over');
-                });
-                quadrant.addEventListener('dragleave', () => {
-                    quadrant.classList.remove('drag-over');
-                });
+                quadrant.addEventListener('dragover', (e) => { e.preventDefault(); quadrant.classList.add('drag-over'); });
+                quadrant.addEventListener('dragleave', () => { quadrant.classList.remove('drag-over'); });
                 quadrant.addEventListener('drop', (e) => {
                     e.preventDefault();
                     quadrant.classList.remove('drag-over');
                     const taskId = e.dataTransfer.getData('text/plain');
                     const draggableElement = document.getElementById(taskId);
-                    const quadrantId = quadrant.dataset.quadrant;
-                    
                     if (draggableElement) {
                         quadrant.appendChild(draggableElement);
                         draggableElement.classList.remove('dragging');
-                        
-                        const taskText = draggableElement.textContent;
-                        categorizedTasks[quadrantId].push(taskText);
-                        
                         const originalTaskIndex = tasks.findIndex(t => t.id === taskId);
                         if(originalTaskIndex > -1) tasks.splice(originalTaskIndex, 1);
                     }
@@ -261,6 +284,11 @@
                 window.scrollTo({ top: resultsSection.offsetTop, behavior: 'smooth' });
             });
 
+            function createGoogleCalendarLink(taskText) {
+                const encodedText = encodeURIComponent(taskText);
+                return `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodedText}`;
+            }
+
             function renderResults() {
                 for (let i = 1; i <= 4; i++) {
                     const resultList = document.getElementById(`results-q${i}`);
@@ -268,14 +296,26 @@
                     if (categorizedTasks[i].length > 0) {
                         categorizedTasks[i].forEach(taskText => {
                             const li = document.createElement('li');
-                            li.textContent = taskText;
+                            li.className = 'flex items-center justify-between';
+                            
+                            const textSpan = document.createElement('span');
+                            textSpan.textContent = `• ${taskText}`;
+                            li.appendChild(textSpan);
+
+                            const calendarLink = document.createElement('a');
+                            calendarLink.href = createGoogleCalendarLink(taskText);
+                            calendarLink.target = '_blank';
+                            calendarLink.title = 'Agendar no Google Calendar';
+                            calendarLink.className = 'ml-2 text-xl hover:opacity-75 transition-opacity';
+                            calendarLink.textContent = '📅';
+                            li.appendChild(calendarLink);
+                            
                             resultList.appendChild(li);
                         });
                     } else {
                         const li = document.createElement('li');
                         li.textContent = 'Nenhuma tarefa aqui.';
                         li.className = 'text-gray-400 italic';
-                        li.style.listStyleType = 'none';
                         resultList.appendChild(li);
                     }
                 }
@@ -295,6 +335,19 @@
                 prioritizeStep.classList.add('section-hidden');
                 resultsSection.classList.add('section-hidden');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            // Animation for guide cards
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.guide-card').forEach(card => {
+                observer.observe(card);
             });
         });
     </script>
