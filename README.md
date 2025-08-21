@@ -20,17 +20,17 @@ A solução transforma a tomada de decisão em um exercício rápido e intuitivo
 ## Tecnologias Utilizadas
 O projeto foi construído com tecnologias web fundamentais, focando em uma experiência de usuário limpa e responsiva, sem a necessidade de frameworks complexos.
 
-### HTML5: Para a estrutura semântica do conteúdo.
+- HTML5: Para a estrutura semântica do conteúdo.
 
-### CSS3: Utilizado para estilizações personalizadas e animações.
+- CSS3: Utilizado para estilizações personalizadas e animações.
 
-### JavaScript (ES6+): Responsável por toda a interatividade, manipulação do DOM e lógica da aplicação, incluindo a funcionalidade de arrastar e soltar.
+- JavaScript (ES6+): Responsável por toda a interatividade, manipulação do DOM e lógica da aplicação, incluindo a funcionalidade de arrastar e soltar.
 
 ## Bibliotecas Externas:
 
-### Tailwind CSS: Um framework CSS utility-first para criar rapidamente interfaces modernas e responsivas.
+- Tailwind CSS: Um framework CSS utility-first para criar rapidamente interfaces modernas e responsivas.
 
-### Google Fonts: Para a tipografia (família de fontes Inter).
+- Google Fonts: Para a tipografia (família de fontes Inter).
 
 ## Conclusão
 O Organizador de Agenda Interativo é mais do que uma simples lista de tarefas. É uma ferramenta de clareza que ajuda a cultivar o hábito de focar no que realmente importa. Ao fornecer uma maneira tangível e envolvente de aplicar um dos métodos de produtividade mais eficazes, este projeto visa reduzir o estresse e aumentar o impacto do trabalho de qualquer pessoa, um dia de cada vez.
@@ -55,17 +55,17 @@ The solution turns decision-making into a quick and intuitive exercise, empoweri
 ## Technologies Used
 The project was built with fundamental web technologies, focusing on a clean and responsive user experience without the need for complex frameworks.
 
-### HTML5: For the semantic structure of the content.
+- HTML5: For the semantic structure of the content.
 
-### CSS3: Used for custom styling and animations.
+- CSS3: Used for custom styling and animations.
 
-### JavaScript (ES6+): Handles all interactivity, DOM manipulation, and application logic, including the drag-and-drop functionality.
+- JavaScript (ES6+): Handles all interactivity, DOM manipulation, and application logic, including the drag-and-drop functionality.
 
 ## External Libraries:
 
-### Tailwind CSS: A utility-first CSS framework for rapidly building modern and responsive interfaces.
+- Tailwind CSS: A utility-first CSS framework for rapidly building modern and responsive interfaces.
 
-### Google Fonts: For the typography (Inter font family).
+- Google Fonts: For the typography (Inter font family).
 
 ## Conclusion
 The Interactive Task Organizer is more than just a to-do list. It's a clarity tool that helps cultivate the habit of focusing on what truly matters. By providing a tangible and engaging way to apply one of the most effective productivity methods, this project aims to reduce stress and increase anyone's impact, one day at a time.
